@@ -103,6 +103,7 @@
   .bot { width: 170px; height: auto; flex: none; overflow: visible; margin-bottom: 6px; }
   @media (max-width: 640px) { .bot { width: 110px; margin-left: auto; margin-top: -8px; } }
   .bot .part, .bot .spin { transform-box: fill-box; transform-origin: center; }
+  .bot .car { opacity: 0; transform-box: fill-box; transform-origin: 50% 100%; }
   @media (prefers-reduced-motion: no-preference) {
     .bot .drive  { animation: bot-drive 7s ease-in-out infinite; }
     .bot .legL   { animation: bot-legL 7s ease-in-out infinite; }
@@ -115,6 +116,8 @@
     .bot .wheelR { animation: bot-wheelR 7s ease-in-out infinite; }
     .bot .spin   { animation: bot-spin 7s linear infinite; }
     .bot .lines  { animation: bot-lines 7s ease-in-out infinite; }
+    .bot .robo   { animation: bot-robo 7s ease-in-out infinite; }
+    .bot .car    { animation: bot-car 7s ease-in-out infinite; }
   }
   @keyframes bot-legL   { 0%, 30% { transform: none } 40%, 82% { transform: translate(-7.5px, -2px) rotate(90deg) } 92%, 100% { transform: none } }
   @keyframes bot-legR   { 0%, 30% { transform: none } 40%, 82% { transform: translate(7.5px, -2px) rotate(-90deg) } 92%, 100% { transform: none } }
@@ -127,6 +130,9 @@
   @keyframes bot-drive  { 0%, 44% { transform: none } 56% { transform: translateX(14px) } 64% { transform: translateX(14px) } 76%, 100% { transform: none } }
   @keyframes bot-spin   { 0%, 44% { transform: none } 56% { transform: rotate(540deg) } 64% { transform: rotate(540deg) } 76%, 100% { transform: rotate(0deg) } }
   @keyframes bot-lines  { 0%, 46% { opacity: 0 } 50%, 54% { opacity: 1 } 58%, 100% { opacity: 0 } }
+  /* the folding robot parts fade into a low sports-car body, which snaps into shape */
+  @keyframes bot-robo   { 0%, 33% { opacity: 1 } 39%, 83% { opacity: 0 } 89%, 100% { opacity: 1 } }
+  @keyframes bot-car    { 0%, 33% { opacity: 0; transform: scale(.35, .5) } 40% { opacity: 1; transform: scale(1.06, 1) } 44%, 80% { opacity: 1; transform: none } 86%, 100% { opacity: 0; transform: scale(.35, .5) } }
   .kicker {
     font-family: var(--font-display); font-weight: 700; font-size: 1.35rem; letter-spacing: 0.14em;
     text-transform: uppercase; margin: 0 0 6px;
@@ -497,6 +503,21 @@
             <g class="lines" opacity="0" stroke="#9aa5d6" stroke-width="2" stroke-linecap="round">
               <line x1="2" y1="62" x2="14" y2="62"/><line x1="0" y1="72" x2="10" y2="72"/><line x1="4" y1="80" x2="12" y2="80"/>
             </g>
+            <!-- sports car body: appears as the robot folds; the robot's wheels become its wheels -->
+            <g class="car">
+              <path d="M8.5 67.2 L23 67.2 L23 69 L8.5 69 Z" fill="#4b4df2"/>
+              <rect x="15.5" y="69" width="2.2" height="4.5" fill="#4b4df2"/>
+              <path d="M12 84 L12 77.5 Q12 74 17 73 L40 71.2 Q50.5 63.2 60.5 62.8 L67.5 62.8 Q73.5 63.3 82 69.6 L101 72.5 Q108.5 74 108.5 79 L108.5 84 Z" fill="url(#bot-grad)"/>
+              <path d="M45.5 70.7 Q52.5 65.2 60.5 64.9 L67 64.9 Q71.5 65.3 77.5 69.7 Z" fill="#06185a"/>
+              <line x1="63.5" y1="65" x2="62.8" y2="70.3" stroke="url(#bot-grad)" stroke-width="1.6"/>
+              <path d="M21 78.8 L100 76.2" stroke="#ffffff" stroke-opacity=".55" stroke-width="1.2" stroke-linecap="round"/>
+              <path d="M45 75.6 L54 75.2" stroke="#06185a" stroke-width="1.6" stroke-linecap="round"/>
+              <circle cx="32" cy="84" r="9" fill="#0a1546"/><circle cx="88" cy="84" r="9" fill="#0a1546"/>
+              <path d="M101.5 74.2 Q106.2 75 107.6 77.2 L102 77 Z" fill="#fff6c2"/>
+              <path d="M98 83.2 L108.5 83.2" stroke="#06185a" stroke-width="1.4"/>
+              <rect x="12" y="74.6" width="3.2" height="2.4" rx=".8" fill="#ff3b3b"/>
+            </g>
+            <g class="robo">
             <!-- legs: robot legs, car chassis -->
             <g class="part legL"><rect x="46" y="61" width="11" height="30" rx="2" fill="#b62ad6"/><rect x="47.5" y="63" width="8" height="4" rx="1" fill="#4b4df2"/></g>
             <g class="part legR"><rect x="63" y="61" width="11" height="30" rx="2" fill="#b62ad6"/><rect x="64.5" y="63" width="8" height="4" rx="1" fill="#4b4df2"/></g>
@@ -514,6 +535,7 @@
               <rect x="50" y="10" width="20" height="16" rx="3" fill="#4b4df2"/>
               <rect x="53" y="15" width="14" height="4" rx="2" fill="#ff7a45"/>
               <rect x="58.5" y="5" width="3" height="6" rx="1" fill="#4b4df2"/>
+            </g>
             </g>
             <!-- wheels -->
             <g class="part wheelL"><g class="spin"><circle cx="44" cy="82" r="7" fill="#0b1030" stroke="#9aa5d6" stroke-width="1.5"/><line x1="44" y1="76.5" x2="44" y2="87.5" stroke="#9aa5d6" stroke-width="1.5"/><line x1="38.5" y1="82" x2="49.5" y2="82" stroke="#9aa5d6" stroke-width="1.5"/></g></g>
